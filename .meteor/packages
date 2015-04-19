@@ -8,3 +8,9 @@ meteor-platform
 autopublish
 urigo:angular
 angularui:angular-ui-router
+accounts-password
+accounts-ui
+accounts-facebook
+accounts-twitter
+accounts-github
+accounts-google

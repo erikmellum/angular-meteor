@@ -6,7 +6,7 @@
     <label>Content</label>
     <input ng-model="newNote.content">
   </form>
-  <button ng-click="notes.save(newNote); newNote='';">Add</button>
+  <button ng-click="newNote.owner=$root.currentUser._id; notes.push(newNote)">Add</button>
   <button ng-click="removeAll()">remove all</button>
   <ul>
     <li class="note"  ng-repeat="note in notes">
