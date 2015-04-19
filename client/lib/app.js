@@ -1,0 +1,1 @@
+angular.module('cloudnote',['angular-meteor', 'ui.router']);
