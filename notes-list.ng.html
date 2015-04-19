@@ -1,0 +1,18 @@
+  <p>You have: {{ notes.length }} notes</p>
+  <h2>Master Note List</h2>
+  <form>
+    <label>Name</label>
+    <input ng-model="newNote.name">
+    <label>Content</label>
+    <input ng-model="newNote.content">
+  </form>
+  <button ng-click="notes.save(newNote); newNote='';">Add</button>
+  <button ng-click="removeAll()">remove all</button>
+  <ul>
+    <li class="note"  ng-repeat="note in notes">
+      <a href="/notes/{{note._id}}">{{note.name}}</a>
+      <p>{{note.content}}</p>
+      <button ng-click="remove(note)">X</button>
+    </li>
+  </ul>
+
