@@ -5,6 +5,8 @@
     <input ng-model="newNote.name">
     <label>Content</label>
     <input ng-model="newNote.content">
+    <label>Public</label>
+    <input ng-model="newNote.public" type="checkbox" >
   </form>
   <button ng-click="newNote.owner=$root.currentUser._id; notes.push(newNote)">Add</button>
   <button ng-click="removeAll()">remove all</button>
