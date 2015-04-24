@@ -1,4 +1,4 @@
-angular.module('cloudnote',['angular-meteor', 'ui.router']);
+angular.module('cloudnote',['angular-meteor', 'ui.router', 'angularUtils.directives.dirPagination']);
 
 function onReady() {
   angular.bootstrap(document, ['cloudnote']);

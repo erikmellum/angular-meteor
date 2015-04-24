@@ -1,4 +1,4 @@
-  <p>You have: {{ notes.length }} notes</p>
+  <p>You have: {{ notesCount }} notes</p>
   <h2>Master Note List</h2>
   <form>
     <label>Name</label>
@@ -11,10 +11,20 @@
   <button ng-click="newNote.owner=$root.currentUser._id; notes.push(newNote)">Add</button>
   <button ng-click="removeAll()">remove all</button>
   <ul>
-    <li class="note"  ng-repeat="note in notes">
+      <h1>Notes:</h1>
+      <div>
+        <input type="search" ng-model="search" placeholder="Search">
+        <select ng-model="orderProperty">
+          <option value="1">Ascending</option>
+          <option value="-1">Descending</option>
+        </select>
+      </div>
+
+    <li class="note"  dir-paginate="note in notes | itemsPerPage: perPage" total-items="notesCount.count">
       <a href="/notes/{{note._id}}">{{note.name}}</a>
       <p>{{note.content}}</p>
       <button ng-click="remove(note)">X</button>
     </li>
   </ul>
+  <dir-pagination-controls on-page-change="pageChanged(newPageNumber)"></dir-pagination-controls>
 
