@@ -26,4 +26,15 @@ angular.module("cloudnote").controller("NoteDetailsController", ['$scope', '$sta
       $scope.note.reset();
     };
 
+    $scope.invite = function(user){
+      $meteor.call('invite', $scope.note._id, user._id).then(
+        function(data){
+          console.log('success inviting', data);
+        },
+        function(err){
+          console.log('failed', err);
+        }
+      );
+    };
+
   }]);

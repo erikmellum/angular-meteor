@@ -1,5 +1,7 @@
-angular.module("cloudnote").controller("NoteListController", ['$scope', '$meteor',
-    function($scope, $meteor){
+angular.module("cloudnote").controller("NoteListController", ['$scope', '$meteor', '$rootScope',
+    function($scope, $meteor, $rootScope){
+
+      $meteor.subscribe('users');
 
       $scope.page = 1;
       $scope.perPage = 3;
@@ -28,6 +30,10 @@ angular.module("cloudnote").controller("NoteListController", ['$scope', '$meteor
           $scope.sort = {name: parseInt($scope.orderProperty)};
       });
 
+      $scope.getUserById = function(userId){
+        return Meteor.users.findOne(userId);
+      };
+
       $scope.pageChanged = function(newPage) {
         $scope.page = newPage;
       };
@@ -39,5 +45,33 @@ angular.module("cloudnote").controller("NoteListController", ['$scope', '$meteor
       $scope.removeAll = function(){
         $scope.notes.remove();
       };
+
+      $scope.creator = function(note){
+        if (!note)
+          return;
+        var owner = $scope.getUserById(note.owner);
+        if (!owner)
+          return "nobody";
+
+        if ($rootScope.currentUser)
+          if ($rootScope.currentUser._id)
+            if (owner._id === $rootScope.currentUser._id)
+              return "me";
+
+        return owner;
+      };
+
+      $scope.invite = function(user){
+        $meteor.call('invite', $scope.note._id, user._id).then(
+          function(data){
+            console.log('success inviting', data);
+          },
+          function(err){
+            console.log('failed', err);
+          }
+        );
+      };
     }
+
+
   ]);

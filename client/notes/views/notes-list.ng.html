@@ -1,30 +1,80 @@
-  <p>You have: {{ notesCount }} notes</p>
-  <h2>Master Note List</h2>
-  <form>
-    <label>Name</label>
-    <input ng-model="newNote.name">
-    <label>Content</label>
-    <input ng-model="newNote.content">
-    <label>Public</label>
-    <input ng-model="newNote.public" type="checkbox" >
-  </form>
-  <button ng-click="newNote.owner=$root.currentUser._id; notes.push(newNote)">Add</button>
-  <button ng-click="removeAll()">remove all</button>
-  <ul>
-      <h1>Notes:</h1>
-      <div>
-        <input type="search" ng-model="search" placeholder="Search">
-        <select ng-model="orderProperty">
+<div class="row">
+  <div ng-show="$root.currentUser" class="col-sm-12">
+
+    <div class="alert alert-info" ng-hide="$root.currentUser || $root.loggingIn">
+      Log in to add and view notes!
+    </div>
+
+    <p>You have: {{ notesCount.count }} notes</p>
+    <h2>Master Note List</h2>
+
+    <form class="form-inline create-form">
+      <h2>Create a new note</h2>
+
+      <div class="form-group">
+        <label for="nameInput">Name</label>
+        <input id="nameInput" type="text" class="form-control" ng-model="newNote.name">
+      </div>
+
+      <div class="form-group">
+        <label for="contentInput">Content</label>
+        <input id="contentInput" type="text" class="form-control" ng-model="newNote.content">
+      </div>
+
+      <div class="form-group">
+        <label for="publicInput">Public</label>
+        <input id="publicInput" type="checkbox" ng-model="newNote.public">
+      </div>
+    </form>
+
+    <button class="btn" ng-click="newNote.owner=$root.currentUser._id; notes.push(newNote)">Add</button>
+    <button class="btn" ng-click="removeAll()">Remove all notes</button>
+  </div>
+</div>
+<div class="row">
+  <div ng-show="$root.currentUser" class="col-sm-12">
+    <h1>Notes:</h1>
+    <form class="form-inline search-form">
+      <div class="form-group">
+        <label class="sr-only" for="search">Search</label>
+        <div class="input-group">
+          <div class="input-group-addon">
+            <i class="glyphicon glyphicon-search"></i>
+          </div>
+          <input id="search" class="form-control" type="text" ng-model="search" placeholder="Search">
+        </div>
+      </div>
+
+      <div class="form-group">
+        <label class="sr-only" for="sort-order">Sort Order</label>
+        <select class="form-control" ng-model="orderProperty">
           <option value="1">Ascending</option>
           <option value="-1">Descending</option>
         </select>
       </div>
+    </form>
+  </div>
+</div>
 
-    <li class="note"  dir-paginate="note in notes | itemsPerPage: perPage" total-items="notesCount.count">
-      <a href="/notes/{{note._id}}">{{note.name}}</a>
-      <p>{{note.content}}</p>
-      <button ng-click="remove(note)">X</button>
-    </li>
-  </ul>
-  <dir-pagination-controls on-page-change="pageChanged(newPageNumber)"></dir-pagination-controls>
-
+<ul class="list-group">
+  <li class="list-group-item note" dir-paginate="note in notes | itemsPerPage: perPage" total-items="notesCount.count">
+    <div class="row">
+      <div class="col-sm-8">
+        <h2><a href="/notes/{{note._id}}">{{note.name}}</a></h2>
+        <p>{{note.content}}</p>
+      </div>
+      <div class="col-sm-4">
+        <a class="close" ng-if="note.owner==$root.currentUser._id" ng-click="remove(note)">X</a>
+        <p><small>Posted by {{ creator(note) | displayName }}</small></p>
+        <div ng-if="note.invited.length > 0">
+          Who has access besides owner:
+          <div ng-repeat="user in note.invited">
+            {{ getUserById(user) | displayName }}
+          </div>
+        </div>
+      </div>
+    </div>
+  </li>
+</ul>
+<dir-pagination-controls on-page-change="pageChanged(newPageNumber)">
+</dir-pagination-controls>

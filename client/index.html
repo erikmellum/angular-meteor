@@ -3,12 +3,16 @@
   <title>Cloudnote</title> 
 </head>
 <body>
-
-  <div>
-    <meteor-include src="loginButtons"></meteor-include>
-    <h1>
-      <a href="/notes">Home</a>
-    </h1>
-    <div ui-view></div>
-  </div>
+  <header class="navbar navbar-fixed-top">
+    <div class="container-fluid">
+      <div class="navbar-header">
+        <h1>
+          <a href="/notes">Home</a>
+        </h1>
+      </div>
+      <meteor-include src="loginButtons"></meteor-include>
+    </div>
+  </header>
+  <div ui-view class="container-fluid"></div>
+      
 </body>
