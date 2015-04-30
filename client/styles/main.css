@@ -1,0 +1,31 @@
+body {
+  background: #FFFFEE;
+}
+
+.header {
+  background: #222;
+  height: 50px;
+}
+
+.login{
+  position: relative;
+  right: 200px;
+}
+.getStarted{
+  position: absolute;
+  right: 50%;
+  top: 50%;
+}
+.bg {
+  min-height: 100%;
+  min-width: 1024px;
+  width: 100%;
+  height: auto;
+  position: fixed;
+  top: 0;
+  left: 0;
+  z-index: -1;
+}
+.body{
+  margin-top: 50px;
+}

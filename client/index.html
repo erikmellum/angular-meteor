@@ -3,16 +3,26 @@
   <title>Cloudnote</title> 
 </head>
 <body>
-  <header class="navbar navbar-fixed-top">
+  
+  <nav class="navbar navbar-fixed-top header">
     <div class="container-fluid">
       <div class="navbar-header">
-        <h1>
-          <a href="/notes">Home</a>
-        </h1>
+        <a class="navbar-brand" href="/notes">Notes</a>
       </div>
-      <meteor-include src="loginButtons"></meteor-include>
+      <div class="navbar-right navbar-text">
+        <meteor-include class="login" src="loginButtons"></meteor-include>
+      </div>
     </div>
-  </header>
-  <div ui-view class="container-fluid"></div>
+  </nav>
+  <div class="welcome" ng-hide="$root.currentUser || $root.loggingIn">
+    <img src="images/background.jpg" alt="Create a notebook accessible from anywhere" class="bg">
+    <div>
+      Notes made simple. Always accessible, all the time.
+    </div>
+    <a class="getStarted btn btn-lg btn-success" ng-click="createAccount()">Start Now!</a>
+  </div>
+  <div ui-view class="container-fluid body">
+    
+  </div>
       
 </body>
