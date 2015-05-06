@@ -77,8 +77,11 @@ angular.module("cloudnote").controller("NoteListController", ['$scope', '$meteor
           $scope.hideNoteList();
         }
       }
-      $(window).load($scope.checkWindowSize);
-      $(window).resize($scope.checkWindowSize);
+      function jqCheckWindowSize() {
+        $scope.$apply($scope.checkWindowSize);
+      }
+      $(window).load(jqCheckWindowSize);
+      $(window).resize(jqCheckWindowSize);
 
       $scope.hideNote = function() {
         $scope.noteVisible=false;
