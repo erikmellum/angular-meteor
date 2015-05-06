@@ -1,80 +1,105 @@
 <div class="row">
-  <div ng-show="$root.currentUser" class="col-sm-12">
-
+  <div ng-show="$root.currentUser" class="col-xs-12">
     <div class="alert alert-info" ng-hide="$root.currentUser || $root.loggingIn">
       Log in to add and view notes!
     </div>
+  </div>
+</div>
 
-    <p>You have: {{ notesCount.count }} notes</p>
-    <h2>Master Note List</h2>
-
-    <form class="form-inline create-form">
-      <h2>Create a new note</h2>
-
-      <div class="form-group">
-        <label for="nameInput">Name</label>
-        <input id="nameInput" type="text" class="form-control" ng-model="newNote.name">
+<div class="row noMargin">
+  <div class="col-xs-12 col-sm-6 col-md-4 col-lg-3">
+    <div class="col-xs-2">
+      <div ng-if="noteFormVisible==false">
+        <button ng-click="showNoteForm()"><a href="#"><i class="glyphicon glyphicon-plus" ></i></a></button>
       </div>
-
-      <div class="form-group">
-        <label for="contentInput">Content</label>
-        <input id="contentInput" type="text" class="form-control" ng-model="newNote.content">
+      <div ng-if="noteFormVisible==true">
+        <button ng-click="hideNoteForm()"><a href="#"><i class="glyphicon glyphicon-minus"></i></a></button>
       </div>
+    </div>
+    <div class="col-xs-10" ng-if="showNoteForm==false">
+      <form class="form-horizontal search-form" >
+        <div class="field form-group">
+          <label class="sr-only" for="search">Search</label>
+          <div class="input-group">
+            <div class="input-group-addon">
+              <i class="glyphicon glyphicon-search"></i>
+            </div>
+            <input id="search" class="form-control" type="text" ng-model="search" placeholder="Search">
+          </div>
+        </div>
+        <!-- Filtering ascending / descending not valuable enough. Add new filters and we can
+        bring this back.
+        <div class="form-group" style="display: inline;">
+          <label class="sr-only" for="sort-order">Sort Order</label>
+          <select class="form-control" ng-model="orderProperty" style="display: inline;">
+            <option value="1">Ascending</option>
+            <option value="-1">Descending</option>
+          </select>
+        </div>
+        -->
+      </form>
+    </div>
+    
+    <div class="col-xs-12" ng-if="noteFormVisible==true">
+      <form class="form-horizontal create-form">
+        <h2>Create a new note</h2>
 
-      <div class="form-group">
-        <label for="publicInput">Public</label>
-        <input id="publicInput" type="checkbox" ng-model="newNote.public">
-      </div>
-    </form>
+        <div class="field form-group">
+          <label for="nameInput">Name</label>
+          <input id="nameInput" type="text" class="form-control" ng-model="newNote.name">
+        </div>
 
-    <button class="btn" ng-click="newNote.owner=$root.currentUser._id; notes.push(newNote)">Add</button>
-    <button class="btn" ng-click="removeAll()">Remove all notes</button>
+        <div class="field form-group">
+          <label for="contentInput">Content</label>
+          <input id="contentInput" type="text" class="form-control" ng-model="newNote.content">
+        </div>
+        <!-- Not an important feature yet
+        <div class="field form-group">
+          <label for="publicInput">Public</label>
+          <input id="publicInput" type="checkbox" ng-model="newNote.public">
+        </div>
+        -->
+        <button class="btn" ng-click="newNote.owner=$root.currentUser._id; notes.push(newNote)">Add</button>
+        <!-- Dangerous to have a remove all button without an ng-confirm, plus 
+        who would ever want to delete every note they created?
+      <button class="btn" ng-click="removeAll()">Remove all notes</button>
+        -->
+      </form>
+    </div>
   </div>
 </div>
 <div class="row">
-  <div ng-show="$root.currentUser" class="col-sm-12">
-    <h1>Notes:</h1>
-    <form class="form-inline search-form">
-      <div class="form-group">
-        <label class="sr-only" for="search">Search</label>
-        <div class="input-group">
-          <div class="input-group-addon">
-            <i class="glyphicon glyphicon-search"></i>
+   <!-- Nobody needs to see the note count as of right now
+  <p>You have: {{ notesCount.count }} notes</p>
+  -->
+  <ul class="list-group col-xs-0 col-sm-6 col-md-4 col-lg-3" ng-if="noteListVisible">
+    <li class="list-group-item note" dir-paginate="note in notes | itemsPerPage: perPage" total-items="notesCount.count">
+      <div class="row">
+        <div class="">
+          <h2 class="note" style="display: inline;" ng-click="setContents(note.content)"><a href="#"><!--/notes/{{note._id}}-->{{note.name}}</a></h2>
+          <!-- not going to show note contents until note is clicked on 
+          <p>{{note.content}}</p>
+          -->
+          <div style="display: inline;" >
+            <button class="close" ng-if="note.owner==$root.currentUser._id" ng-click="remove(note)"><a href="#"><i class="glyphicon glyphicon-remove" ></i></a></button>
+            <!-- Do not need to show this
+            <p><small>Posted by {{ creator(note) | displayName }}</small></p>
+            <div ng-if="note.invited.length > 0">
+              Who has access besides owner:
+              <div ng-repeat="user in note.invited">
+                {{ getUserById(user) | displayName }}
+              </div>
+            </div>
+            -->
           </div>
-          <input id="search" class="form-control" type="text" ng-model="search" placeholder="Search">
         </div>
       </div>
-
-      <div class="form-group">
-        <label class="sr-only" for="sort-order">Sort Order</label>
-        <select class="form-control" ng-model="orderProperty">
-          <option value="1">Ascending</option>
-          <option value="-1">Descending</option>
-        </select>
-      </div>
-    </form>
+    </li>
+  </ul>
+  <dir-pagination-controls on-page-change="pageChanged(newPageNumber)">
+  </dir-pagination-controls>
+  <div class="col-xs-12 col-sm-6 col-md-8 col-lg-9 noteContent" ng-show="showNote()">
+  {{noteContent}}
+  <button class="close" ng-click="hideNote()"><a href="#"><i class="glyphicon glyphicon-remove" ></i></a></button>
   </div>
 </div>
-
-<ul class="list-group">
-  <li class="list-group-item note" dir-paginate="note in notes | itemsPerPage: perPage" total-items="notesCount.count">
-    <div class="row">
-      <div class="col-sm-8">
-        <h2><a href="/notes/{{note._id}}">{{note.name}}</a></h2>
-        <p>{{note.content}}</p>
-      </div>
-      <div class="col-sm-4">
-        <a class="close" ng-if="note.owner==$root.currentUser._id" ng-click="remove(note)">X</a>
-        <p><small>Posted by {{ creator(note) | displayName }}</small></p>
-        <div ng-if="note.invited.length > 0">
-          Who has access besides owner:
-          <div ng-repeat="user in note.invited">
-            {{ getUserById(user) | displayName }}
-          </div>
-        </div>
-      </div>
-    </div>
-  </li>
-</ul>
-<dir-pagination-controls on-page-change="pageChanged(newPageNumber)">
-</dir-pagination-controls>

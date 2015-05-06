@@ -7,6 +7,18 @@ body {
   height: 50px;
 }
 
+.row{
+  margin: 5px 5px;
+}
+.noMargin{
+  margin: 5px 0px;
+  padding: 0px;
+}
+
+.centered{
+  margin: 0 auto;
+}
+
 .login{
   position: relative;
   right: 200px;
@@ -29,3 +41,12 @@ body {
 .body{
   margin-top: 50px;
 }
+.noteContent{
+  height: 500px;
+  background: #FFFFFF;
+  border-radius: 5px;
+  border: 1px solid #CCC;
+    -webkit-transition:all linear 0.5s;
+    transition:all linear 0.5s;
+}
+
