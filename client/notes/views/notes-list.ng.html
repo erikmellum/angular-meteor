@@ -46,12 +46,12 @@
 
         <div class="field form-group">
           <label for="nameInput">Name</label>
-          <input id="nameInput" type="text" class="form-control" ng-model="newNote.name">
+          <input id="nameInput" type="text" class="form-control" ng-model="notes[0].name">
         </div>
 
         <div class="field form-group">
           <label for="contentInput">Content</label>
-          <input id="contentInput" type="text" class="form-control" ng-model="newNote.content">
+          <input id="contentInput" type="text" class="form-control" ng-model="notes[0].content">
         </div>
         <!-- Not an important feature yet
         <div class="field form-group">
@@ -95,9 +95,10 @@
         </div>
       </div>
     </li>
-  </ul>
-  <dir-pagination-controls on-page-change="pageChanged(newPageNumber)">
+    <dir-pagination-controls on-page-change="pageChanged(newPageNumber)">
   </dir-pagination-controls>
+  </ul>
+  
   <div class="col-xs-12 col-sm-6 col-md-8 col-lg-9 noteContent" ng-show="showNote()">
   {{noteContent}}
   <button class="close" ng-click="hideNote()"><a href="#"><i class="glyphicon glyphicon-remove" ></i></a></button>

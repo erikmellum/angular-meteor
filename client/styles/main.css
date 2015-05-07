@@ -35,8 +35,7 @@ body {
   height: auto;
   position: fixed;
   top: 0;
-  left: 0;
-  z-index: -1;
+  left: 0s  z-index: -1;
 }
 .body{
   margin-top: 50px;

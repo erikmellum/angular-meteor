@@ -4,7 +4,7 @@ angular.module("cloudnote").controller("NoteListController", ['$scope', '$meteor
       $meteor.subscribe('users');
       $scope.noteFormVisible = false;
       $scope.page = 1;
-      $scope.perPage = 3;
+      $scope.perPage = 10;
       $scope.sort = { name: 1 };
       $scope.orderProperty = '1';
       $scope.noteContent = '';
@@ -52,8 +52,6 @@ angular.module("cloudnote").controller("NoteListController", ['$scope', '$meteor
         return false;
       }
 
-
-
       $scope.hideNoteList = function () {
         if($scope.smallScreen && $scope.noteVisible){
           $scope.noteListVisible= false;
@@ -90,6 +88,9 @@ angular.module("cloudnote").controller("NoteListController", ['$scope', '$meteor
 
       $scope.showNoteForm = function() {
         $scope.noteFormVisible=true;
+        $scope.newNote = {name: "", content: "", owner: ""};
+        $scope.newNote.owner=$rootScope.currentUser._id; 
+        $scope.notes.push($scope.newNote);
       };
 
       $scope.hideNoteForm = function() {
